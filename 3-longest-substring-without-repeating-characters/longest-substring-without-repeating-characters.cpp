@@ -1,23 +1,27 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        unordered_map<char, int> maps;
+        unordered_map<char, int> lastIndex;
 
-        int ans = 0;
         int left = 0;
+        int maxLength = 0;
 
         for (int right = 0; right < s.size(); right++) {
 
-            if (maps.find(s[right]) != maps.end() &&
-                maps[s[right]] >= left) {
-                left = maps[s[right]] + 1;
+            // If character already exists in the current window,
+            // move the left pointer
+            if (lastIndex.find(s[right]) != lastIndex.end() &&
+                lastIndex[s[right]] >= left) {
+                left = lastIndex[s[right]] + 1;
             }
 
-            maps[s[right]] = right;
+            // Update the last seen index of the current character
+            lastIndex[s[right]] = right;
 
-            ans = max(ans, right - left + 1);
+            // Update the maximum window size
+            maxLength = max(maxLength, right - left + 1);
         }
 
-        return ans;     
+        return maxLength;
     }
 };
