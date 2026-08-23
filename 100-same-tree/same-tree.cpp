@@ -17,6 +17,6 @@ public:
         bool isLeftSame = isSameTree(p->left, q->left);
         bool isRightSame = isSameTree(p->right, q->right);
 
-        return isLeftSame && isRightSame && p->val == q->val;
+        return isLeftSame && isRightSame && p->val == q->val; 
     }
 };
