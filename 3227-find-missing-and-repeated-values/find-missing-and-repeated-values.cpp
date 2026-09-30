@@ -1,33 +1,28 @@
 class Solution {
 public:
     vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
+        unordered_map<int, int> maps;
         int rows = grid.size();
         int cols = grid[0].size();
+        int repeating, missing;
 
-        int repeating = -1;
-        int missing = -1;
-
-        unordered_map<int, int> maps;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                int val = grid[i][j];
-
-                if (maps.find(val) != maps.end()) {
-                    repeating = val;
-                } else {
-                    maps[val] = 1;
+        for(int i = 0; i<rows; i++) {
+            for(int j = 0; j<cols; j++) {
+                if(maps.find(grid[i][j]) != maps.end()) {
+                    missing = grid[i][j];
                 }
+
+                maps[grid[i][j]] = 1;
             }
         }
 
-        for (int num = 1; num <= rows * cols; num++) {
-            if (maps.find(num) == maps.end()) {
-                missing = num;
-                break;
+        for(int i = 1; i<=rows*rows; i++) {
+            if(maps.find(i) == maps.end()) {
+                repeating = i;
             }
         }
-
-        return {repeating, missing};
+        
+        vector<int> ans = {missing, repeating};
+        return ans;
     }
 };
