@@ -9,7 +9,7 @@ public:
         for(int i = 0; i<rows; i++) {
             for(int j = 0; j<cols; j++) {
                 if(maps.find(grid[i][j]) != maps.end()) {
-                    missing = grid[i][j];
+                    repeating = grid[i][j];
                 }
 
                 maps[grid[i][j]] = 1;
@@ -18,11 +18,11 @@ public:
 
         for(int i = 1; i<=rows*rows; i++) {
             if(maps.find(i) == maps.end()) {
-                repeating = i;
+                missing = i;
             }
         }
         
-        vector<int> ans = {missing, repeating};
+        vector<int> ans = {repeating, missing};
         return ans;
     }
 };
