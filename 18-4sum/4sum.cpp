@@ -1,47 +1,42 @@
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
-        int n = nums.size();
-        vector<vector<int>> result;
-        if (n < 4) return result;
+        set<vector<int>> s;
+        vector<vector<int>> output;
 
         sort(nums.begin(), nums.end());
+        if(nums.size() < 4) return output; 
 
-        for (int i = 0; i < n - 3; ++i) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicates for i
 
-            for (int j = i + 1; j < n - 2; ++j) {
-                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // Skip duplicates for j
+        for(int i = 0; i<nums.size(); i++) {
+            for(int j = i+1; j<nums.size(); j++) {
+                int k = j + 1;
+                int l = nums.size()-1;
 
-                int left = j + 1, right = n - 1;
-
-                while (left < right) {
-                    long long sum = (long long)nums[i] + nums[j] + nums[left] + nums[right];
-
-                    if (sum == target) {
-                        result.push_back({nums[i], nums[j], nums[left], nums[right]});
-
-                        // Move pointers past duplicates
-                        while (left < right && nums[left] == nums[left + 1]) ++left;
-                        while (left < right && nums[right] == nums[right - 1]) --right;
-
-                        ++left;
-                        --right;
-                    } 
-                    else if (sum < target) {
-                        ++left;
-                    } 
-                    else {
-                        --right;
+                while(k<l) {
+                    long long int sum = nums[i];
+                    sum+=nums[j];
+                    sum+=nums[k];
+                    sum+=nums[l];
+                
+                    if(sum == target) {
+                        s.insert({nums[i], nums[j], nums[k], nums[l]});
+                        k++;
+                        l--;
+                    } else if(sum < target) {
+                        k ++;
+                    } else if (sum > target) {
+                        l --;
                     }
                 }
+
             }
         }
-        return result;
+
+        for(auto quad : s) {
+            output.push_back(quad);
+        }
+
+        return output;
     }
 };
